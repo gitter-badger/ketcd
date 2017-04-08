@@ -4,3 +4,6 @@
 
 # Created by './scripts/run_etcd.sh'
 /external/
+
+# maven output folder
+target/

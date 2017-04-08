@@ -1,3 +1,6 @@
 # ignore IDEA settings/configs
 .idea/
 *.iml
+
+# Created by './scripts/run_etcd.sh'
+/external/

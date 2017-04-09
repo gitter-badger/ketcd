@@ -3,6 +3,7 @@
 package xyz.dowenliu.ketcd
 
 import com.google.protobuf.ByteString
+import io.grpc.ManagedChannelBuilder
 import io.grpc.Metadata
 import io.grpc.NameResolver
 import io.grpc.stub.AbstractStub
@@ -28,3 +29,6 @@ internal fun <T: AbstractStub<T>> configureStub(stub: T, token: String?): T {
 
 internal fun simpleNameResolverFactory(endpoints: List<EtcdEndpoint>): NameResolver.Factory =
         SimpleEtcdNameResolverFactory(endpoints.stream().map { URI(it.toString()) }.collect(Collectors.toList()))
+
+internal fun defaultChannelBuilder(factory: NameResolver.Factory): ManagedChannelBuilder<*> =
+        ManagedChannelBuilder.forTarget("etcd").nameResolverFactory(factory).usePlaintext(true)

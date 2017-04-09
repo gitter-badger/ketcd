@@ -43,6 +43,11 @@ if [[ ! -d "${DIRNAME}" ]]; then
   tar xzvf ${BALL}
 else
   echo "skip to download since ${BALL} exists."
+  echo "clean before start..."
+  rm -rf "${DIRNAME}/infra1.etcd"
+  rm -rf "${DIRNAME}/infra2.etcd"
+  rm -rf "${DIRNAME}/infra3.etcd"
+  rm -f "${DIRNAME}/nohup.out"
 fi
 
 cd ${DIRNAME}

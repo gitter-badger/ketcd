@@ -23,6 +23,6 @@ class DnsSrvNameResolverTest {
     @Test
     fun testResolverFactory() {
         test.assertEquals((DnsSrvNameResolverFactory().newNameResolver(URI.create("dns+srv:///my-domain-1.com"), Attributes.EMPTY) as DnsSrvNameResolver).name, "_etcd-server._tcp.my-domain-1.com")
-        test.assertEquals((DnsSrvNameResolverFactory().newNameResolver(URI.create("dns+srv:///_etcd-server._tcp.my-domain-2.com"), Attributes.EMPTY) as DnsSrvNameResolver).name, "_etcd-server._tcp.my-domain-1.com")
+        test.assertEquals((DnsSrvNameResolverFactory().newNameResolver(URI.create("dns+srv:///_etcd-server._tcp.my-domain-2.com"), Attributes.EMPTY) as DnsSrvNameResolver).name, "_etcd-server._tcp.my-domain-2.com")
     }
 }

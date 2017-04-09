@@ -1,5 +1,8 @@
-# ignore IDEA settings/configs
-.idea/
+.*
+!.gitignore
+!.travis.yml
+
+# IDEA module file
 *.iml
 
 # Created by './scripts/run_etcd.sh'

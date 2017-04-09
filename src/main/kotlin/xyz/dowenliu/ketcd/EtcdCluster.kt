@@ -26,7 +26,7 @@ interface EtcdCluster {
      * @param endpoint the **peer** address of the new member
      * @return [ListenableFuture] of [MemberAddResponse]
      */
-    fun addMember(endpoint: EtcdEndpoint): ListenableFuture<MemberAddResponse>
+    fun addMember(vararg endpoint: EtcdEndpoint): ListenableFuture<MemberAddResponse>
 
     /**
      * remove an existing member from the cluster.
@@ -43,5 +43,5 @@ interface EtcdCluster {
      * @param endpoint the new **peer** address of the member
      * @return [ListenableFuture] of [MemberUpdateResponse]
      */
-    fun updateMember(memberId: Long, endpoint: EtcdEndpoint): ListenableFuture<MemberUpdateResponse>
+    fun updateMember(memberId: Long, vararg endpoint: EtcdEndpoint): ListenableFuture<MemberUpdateResponse>
 }

@@ -58,7 +58,7 @@ abstract class AbstractEtcdNameResolver(name: String,
         executor?.execute(resolutionRunnable) // executor should be not null now.
     }
 
-    protected abstract fun getServers(): List<ResolvedServerInfo>
+    internal abstract fun getServers(): List<ResolvedServerInfo>
 
     /**
      * Helper task to resolve servers.

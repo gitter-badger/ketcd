@@ -25,7 +25,7 @@ class DnsSrvNameResolverFactory : AbstractEtcdNameResolverFactory() {
         require(targetPath.startsWith('/'),
                 { "the path component ($targetPath) of the target ($targetUri) must start with '/'" })
         var name = targetPath.substring(1)
-        if (!name.startsWith("_etcd-server._tcp.")) name = "_etcd-server.tcp.$name"
+        if (!name.startsWith("_etcd-server._tcp.")) name = "_etcd-server._tcp.$name"
         return DnsSrvNameResolver(name, GrpcUtil.SHARED_CHANNEL_EXECUTOR)
     }
 

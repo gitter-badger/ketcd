@@ -1,11 +1,8 @@
 package xyz.dowenliu.ketcd
 
-import com.google.common.base.Supplier
-import com.google.common.base.Suppliers
 import com.google.common.util.concurrent.ListenableFuture
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
-import io.grpc.NameResolver
 import xyz.dowenliu.ketcd.api.AuthGrpc
 import xyz.dowenliu.ketcd.api.AuthenticateRequest
 import xyz.dowenliu.ketcd.api.AuthenticateResponse
@@ -15,6 +12,7 @@ import xyz.dowenliu.ketcd.resolver.AbstractEtcdNameResolverFactory
 import java.io.Closeable
 import java.util.*
 import java.util.concurrent.ExecutionException
+import java.util.function.Supplier
 import java.util.stream.Collectors
 
 /**
@@ -24,9 +22,7 @@ import java.util.stream.Collectors
  * @author liufl
  * @since 0.1.0
  */
-class EtcdClient private constructor(private val endpoints: List<EtcdEndpoint>?,
-                                     private val channel: ManagedChannel,
-                                     private val nameResolverFactory: NameResolver.Factory,
+class EtcdClient private constructor(private val channel: ManagedChannel,
                                      private val clusterClient: Supplier<EtcdCluster>) : Closeable {
     companion object {
         /**
@@ -167,19 +163,11 @@ class EtcdClient private constructor(private val endpoints: List<EtcdEndpoint>?,
         }
 
         fun build(): EtcdClient {
-            var _nameResolverFactory: NameResolver.Factory? = nameResolverFactory
-            val endpoints: List<EtcdEndpoint>?
-            if (_nameResolverFactory != null)
-                endpoints = null
-            else {
-                // no nameResolverFactory set, use SimpleEtcdNameResolver
-                endpoints = this.endpoints
-                _nameResolverFactory = simpleNameResolverFactory(endpoints)
-            }
-            val channel = channelBuilder?.build() ?: defaultChannelBuilder(_nameResolverFactory).build()
+            val channel = channelBuilder?.build() ?:
+                    defaultChannelBuilder(nameResolverFactory ?: simpleNameResolverFactory(endpoints)).build()
             val token = getToken(channel, this)
-            return EtcdClient(endpoints, channel, _nameResolverFactory,
-                    Suppliers.memoize { EtcdClusterImpl(channel, token) })
+            return EtcdClient(channel,
+                    Supplier<EtcdCluster> { EtcdClusterImpl(channel, token) })
         }
     }
 }

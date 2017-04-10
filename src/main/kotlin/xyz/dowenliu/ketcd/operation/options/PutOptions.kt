@@ -1,5 +1,8 @@
 package xyz.dowenliu.ketcd.operation.options
 
+import xyz.dowenliu.ketcd.version.EtcdVersion
+import xyz.dowenliu.ketcd.version.ForEtcdVersion
+
 /**
  * The options for put operation
  *
@@ -7,12 +10,13 @@ package xyz.dowenliu.ketcd.operation.options
  * @author liufl
  * @since 0.1.0
  *
- * @param leaseId The lease id bind to.
- * @param prevKV If the response will contains previous key-value pair.
+ * @property leaseId The lease id bind to.
+ * @property prevKV If the response will contains previous key-value pair.
  */
-// TODO ignore-value
-// TODO ignore-lease
-class PutOptions private constructor(val leaseId: Long, val prevKV: Boolean) {
+// FUTURE ignore-value
+// FUTURE ignore-lease
+class PutOptions private constructor(val leaseId: Long,
+                                     @ForEtcdVersion(EtcdVersion.V3_0_11) val prevKV: Boolean) {
     companion object {
         val DEFAULT = newBuilder().build()
 
@@ -42,6 +46,7 @@ class PutOptions private constructor(val leaseId: Long, val prevKV: Boolean) {
          * @param prevKV response will contains previous key-value pair if true.
          * @return this builder to train
          */
+        @ForEtcdVersion(EtcdVersion.V3_0_11)
         fun prevKV(prevKV: Boolean = true): Builder {
             this.prevKV = prevKV
             return this

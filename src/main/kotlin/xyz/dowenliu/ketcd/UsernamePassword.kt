@@ -14,7 +14,7 @@ data class UsernamePassword internal constructor(val username: ByteString, val p
         fun of(username: String, password: String): UsernamePassword {
             require(username.isNotBlank(), { "username can not be empty."})
             require(password.isNotBlank(), { "password can not be empty" })
-            return UsernamePassword(ByteString.copyFromUtf8(username.trim()), ByteString.copyFromUtf8(password.trim()))
+            return UsernamePassword(username.toByteString(), ByteString.copyFromUtf8(password.trim()))
         }
     }
 }

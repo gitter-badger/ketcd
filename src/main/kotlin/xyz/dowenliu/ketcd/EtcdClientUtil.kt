@@ -32,3 +32,5 @@ internal fun simpleNameResolverFactory(endpoints: List<EtcdEndpoint>): NameResol
 
 internal fun defaultChannelBuilder(factory: NameResolver.Factory): ManagedChannelBuilder<*> =
         ManagedChannelBuilder.forTarget("etcd").nameResolverFactory(factory).usePlaintext(true)
+
+fun String.toByteString(): ByteString = ByteString.copyFromUtf8(this)

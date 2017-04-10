@@ -20,6 +20,11 @@ class PutOptions private constructor(val leaseId: Long,
     companion object {
         val DEFAULT = newBuilder().build()
 
+        /**
+         * Create a builder to construct options for put operation.
+         *
+         * @return builder
+         */
         fun newBuilder(): Builder = Builder()
     }
 
@@ -52,6 +57,11 @@ class PutOptions private constructor(val leaseId: Long,
             return this
         }
 
+        /**
+         * Build the put options
+         *
+         * @return the put options
+         */
         fun build(): PutOptions = PutOptions(leaseId, prevKV)
     }
 }

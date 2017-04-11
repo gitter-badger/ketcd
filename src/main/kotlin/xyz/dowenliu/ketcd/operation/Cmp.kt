@@ -4,7 +4,7 @@ import com.google.protobuf.ByteString
 import xyz.dowenliu.ketcd.api.Compare
 
 /**
- * The compare predicate in [Txn]
+ * The compare predicate in [TxnRequestPredicate]
  *
  * create at 2017/4/11
  * @author liufl

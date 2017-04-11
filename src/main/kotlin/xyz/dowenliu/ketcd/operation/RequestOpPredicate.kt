@@ -16,13 +16,15 @@ import xyz.dowenliu.ketcd.operation.options.PutOptions
  * @author liufl
  * @since 0.1.0
  */
-abstract class Op internal constructor(protected val type: Type, protected val key: ByteString) {
+abstract class RequestOpPredicate internal constructor(protected val type: Type, protected val key: ByteString) {
     companion object {
-        fun put(key: ByteString, value: ByteString, options: PutOptions): PutOp = PutOp(key, value, options)
+        fun put(key: ByteString, value: ByteString, options: PutOptions): RequestPutPredicate =
+                RequestPutPredicate(key, value, options)
 
-        fun get(key: ByteString, options: GetOptions): GetOp = GetOp(key, options)
+        fun get(key: ByteString, options: GetOptions): RequestGetPredicate = RequestGetPredicate(key, options)
 
-        fun delete(key: ByteString, options: DeleteOptions): DeleteOp = DeleteOp(key, options)
+        fun delete(key: ByteString, options: DeleteOptions): RequestDeletePredicate =
+                RequestDeletePredicate(key, options)
     }
 
     abstract fun toRequestOp(): RequestOp
@@ -34,9 +36,9 @@ abstract class Op internal constructor(protected val type: Type, protected val k
         PUT, RANGE, DELETE_RANGE
     }
 
-     class PutOp internal constructor(key: ByteString,
-                                      private val value: ByteString,
-                                      private val options: PutOptions) : Op(Type.PUT, key) {
+    class RequestPutPredicate internal constructor(key: ByteString,
+                                                   private val value: ByteString,
+                                                   private val options: PutOptions) : RequestOpPredicate(Type.PUT, key) {
         override fun toRequestOp(): RequestOp {
             val request = PutRequest.newBuilder()
                     .setKey(key)
@@ -48,7 +50,8 @@ abstract class Op internal constructor(protected val type: Type, protected val k
         }
     }
 
-    class GetOp internal constructor(key: ByteString, private val options: GetOptions) : Op(Type.RANGE, key) {
+    class RequestGetPredicate internal constructor(key: ByteString, private val options: GetOptions) :
+            RequestOpPredicate(Type.RANGE, key) {
         override fun toRequestOp(): RequestOp {
             val builder = RangeRequest.newBuilder()
                     .setKey(key)
@@ -64,7 +67,8 @@ abstract class Op internal constructor(protected val type: Type, protected val k
         }
     }
 
-    class DeleteOp internal constructor(key: ByteString, private val options: DeleteOptions) : Op(Type.DELETE_RANGE, key) {
+    class RequestDeletePredicate internal constructor(key: ByteString, private val options: DeleteOptions) :
+            RequestOpPredicate(Type.DELETE_RANGE, key) {
         override fun toRequestOp(): RequestOp {
             val builder = DeleteRangeRequest.newBuilder()
                     .setKey(key)

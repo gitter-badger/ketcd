@@ -10,28 +10,28 @@ import xyz.dowenliu.ketcd.api.TxnRequest
  * @since 0.1.0
  */
 class TxnRequestPredicate private constructor(private val testList: List<ComparePredicate>,
-                                              private val successOpList: List<Op>,
-                                              private val failureOpList: List<Op>) {
+                                              private val successOpList: List<RequestOpPredicate>,
+                                              private val failureOpList: List<RequestOpPredicate>) {
     companion object {
         fun newBuilder(): Builder = Builder()
     }
 
     class Builder internal constructor() {
         private var testList: List<ComparePredicate> = emptyList()
-        private var successOpList: List<Op> = emptyList()
-        private var failureOpList: List<Op> = emptyList()
+        private var successOpList: List<RequestOpPredicate> = emptyList()
+        private var failureOpList: List<RequestOpPredicate> = emptyList()
 
         fun test(vararg tests: ComparePredicate): Builder {
             testList = tests.toList()
             return this
         }
 
-        fun successDo(vararg ops: Op): Builder {
+        fun successDo(vararg ops: RequestOpPredicate): Builder {
             successOpList = ops.toList()
             return this
         }
 
-        fun failureDo(vararg ops: Op): Builder {
+        fun failureDo(vararg ops: RequestOpPredicate): Builder {
             failureOpList = ops.toList()
             return this
         }
@@ -42,7 +42,7 @@ class TxnRequestPredicate private constructor(private val testList: List<Compare
     fun toTxnRequest(): TxnRequest =
             TxnRequest.newBuilder()
                     .addAllCompare(testList.map(ComparePredicate::toCompare))
-                    .addAllSuccess(successOpList.map(Op::toRequestOp))
-                    .addAllFailure(failureOpList.map(Op::toRequestOp))
+                    .addAllSuccess(successOpList.map(RequestOpPredicate::toRequestOp))
+                    .addAllFailure(failureOpList.map(RequestOpPredicate::toRequestOp))
                     .build()
 }

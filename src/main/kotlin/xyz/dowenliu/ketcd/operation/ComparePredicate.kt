@@ -10,9 +10,9 @@ import xyz.dowenliu.ketcd.api.Compare
  * @author liufl
  * @since 0.1.0
  */
-class Cmp(private val key: ByteString,
-          private val op: Op,
-          private val target: CmpTarget<*>) {
+class ComparePredicate(private val key: ByteString,
+                       private val op: Op,
+                       private val target: CmpTarget<*>) {
     fun toCompare(): Compare {
         val builder = Compare.newBuilder().setKey(key)
         builder.result = op.result

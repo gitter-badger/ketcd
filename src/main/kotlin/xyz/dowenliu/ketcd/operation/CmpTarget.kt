@@ -4,7 +4,7 @@ import com.google.protobuf.ByteString
 import xyz.dowenliu.ketcd.api.Compare
 
 /**
- * Cmp  target used in [TxnRequestPredicate]
+ * ComparePredicate  target used in [TxnRequestPredicate]
  *
  * create at 2017/4/11
  * @author liufl
@@ -18,7 +18,7 @@ import xyz.dowenliu.ketcd.api.Compare
 abstract class CmpTarget<out T>(val target: Compare.CompareTarget, val targetValue: T) {
     companion object {
         /**
-         * Cmp on a given _version_
+         * ComparePredicate on a given _version_
          *
          * @param version version to compare.
          * @return the version compare target.
@@ -26,7 +26,7 @@ abstract class CmpTarget<out T>(val target: Compare.CompareTarget, val targetVal
         fun version(version: Long): VersionCmpTarget = VersionCmpTarget(version)
 
         /**
-         * Cmp on the create _revision_
+         * ComparePredicate on the create _revision_
          *
          * @param revision the create revision
          * @return the create revision compare target.
@@ -34,7 +34,7 @@ abstract class CmpTarget<out T>(val target: Compare.CompareTarget, val targetVal
         fun createVersion(revision: Long): CreateRevisionCmpTarget = CreateRevisionCmpTarget(revision)
 
         /**
-         * Cmp on the modification _revision_
+         * ComparePredicate on the modification _revision_
          *
          * @param revision the modification revision
          * @return the modification revision compare target.
@@ -42,7 +42,7 @@ abstract class CmpTarget<out T>(val target: Compare.CompareTarget, val targetVal
         fun modRevision(revision: Long): ModRevisionCmpTarget = ModRevisionCmpTarget(revision)
 
         /**
-         * Cmp on the _value_
+         * ComparePredicate on the _value_
          *
          * @param value the value to compare.
          * @return the value compare target.
